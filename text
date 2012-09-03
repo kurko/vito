@@ -1,0 +1,28 @@
+http://proteus.com/
+
+Pedido: /users
+Resposta: lista de usuário
+
+Padrão de resposta:
+
+Formato: { "ID": {"name": "NOME_DA_PESSOA", ...} }
+
+Exemplo: { "0": {"name": "João", "last_name": "da Silva"},
+           "1": {"name": "Maria", ... }
+         }
+
+
+## VENDAS
+
+
+### Pega vendas do mes X até Y
+Pedido formato: /vendas?id=ID_DA_VENDA&de=DATA-X&ate=DATA_Y
+Pedido exemplo: /vendas?id=123&de=19870421&ate=20120421
+
+ID_DA_VENDA só pode ser um número de 0 a 1000.
+
+Formato: { "ID": {"name": "NOME_DA_PESSOA", ...} }
+
+Exemplo: { "0": {"name": "João", "last_name": "da Silva", date: "12/04/1987"},
+           "1": {"name": "Maria", ... }
+         }
