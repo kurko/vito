@@ -1,12 +1,15 @@
 module Vito
   class OperatingSystem
-    def initialize(requestor)
-      @requestor = requestor
+    def initialize(connection)
+      @connection = connection
+    end
+
+    def update_packages
+      @connection.run("sudo apt-get update")
     end
 
     def install_dependencies(dependencies)
-      
-        sudo apt-get install -y
+      @connection.run("sudo apt-get install -y #{dependencies.join(" ")}")
     end
   end
 end

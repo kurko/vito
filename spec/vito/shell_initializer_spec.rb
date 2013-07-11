@@ -13,19 +13,7 @@ describe Vito::ShellInitializer do
       stub_const("Vito::Ssh", Object.new)
     end
 
-    describe "installation" do
-      it "installs the recipes" do
-        subject.stub(:start_execution)
-        subject.stub(:finish_execution)
-
-        Vito::Installation.stub(:new).with(subject) { recipes }
-        recipes.should_receive(:install)
-
-        subject.run
-      end
-    end
-
-    describe "the execution start" do
+    describe "the execution starts" do
       let(:ssh) { double }
       let(:ssh_config) { double(ssh_host: :host, ssh_user: :user) }
 
@@ -39,7 +27,19 @@ describe Vito::ShellInitializer do
       end
     end
 
-    describe "the execution end" do
+    describe "installation" do
+      it "installs the recipes" do
+        subject.stub(:start_execution)
+        subject.stub(:finish_execution)
+
+        Vito::Installation.stub(:new).with(subject) { recipes }
+        recipes.should_receive(:install)
+
+        subject.run
+      end
+    end
+
+    describe "the execution ends" do
       let(:ssh) { double }
 
       it "closes the SSH connection" do

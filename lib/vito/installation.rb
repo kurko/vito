@@ -1,23 +1,13 @@
 module Vito
   class Installation
-    def initialize(requestor)
-      @requestor = requestor
+    def initialize(name, options, connection)
+      @name = name.to_s
+      @options = options
+      @connection = connection
     end
 
     def install
-
-      config[:use].each do |key, value|
-        if key == :ruby
-          Vito::Recipes::Ruby.new(self).run
-        end
-      end
-    end
-
-  private
-    attr_reader :config
-
-    def config
-      @config ||= @requestor.config
+      "Vito::Recipes::#{@name.camelize}".constantize.new(@options, @connection).run
     end
   end
 end

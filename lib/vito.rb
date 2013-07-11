@@ -1,8 +1,9 @@
-require "vito/version"
-require "vito/shell_initializer"
-require "vito/ssh"
-require "vito/recipes/ruby"
-require "vito/recipes/rbenv"
+require "rubygems"
+require "bundler/setup"
+require "active_support/inflector"
 
 module Vito
 end
+
+Dir["lib/vito/**/*.rb"].each { |f| require f }
+

@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'net/ssh'
+#require 'net/ssh'
 
 module Vito
   class Ssh

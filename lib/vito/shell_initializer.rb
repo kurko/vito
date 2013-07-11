@@ -5,39 +5,28 @@ module Vito
     attr_reader :ssh
 
     def initialize(args)
-      require args[0]
+      @installation_specs = File.open("vito.rb").read
     end
 
     def run
-      start_execution
-      install_recipes
-      finish_execution
+      #start_execution
+      run_vito_file
+      #finish_execution
+    end
+
+    # called by the vito.rb file
+    def server(*args, &block)
+      Vito::Server.new.instance_eval &block
     end
 
     def run_ssh(command = nil)
       @ssh.run(command) if command
     end
 
-    def config
-      Vito::RecipesConfiguration.new(self)
-    end
+    private
 
-  private
-
-    def open_ssh_connection
-      @ssh ||= Vito::Ssh.new(config.ssh_host, config.ssh_user)
-    end
-
-    def start_execution
-      open_ssh_connection
-    end
-
-    def finish_execution
-      ssh.close
-    end
-
-    def install_recipes
-      Vito::Installation.new(self).install
+    def run_vito_file
+      instance_eval @installation_specs
     end
   end
 end
