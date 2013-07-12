@@ -2,7 +2,11 @@ module Vito
   module Recipes
     class Rbenv < Vito::Recipe
       def run
-        unless rbenv_installed?
+        if rbenv_installed?
+          Vito::Log.write "Rbenv already installed."
+        else
+          Vito::Log.write "Installing Rbenv"
+          depends_on_recipe(:git)
           install_rbenv
           install_ruby_build
         end
@@ -14,8 +18,7 @@ module Vito
         string = []
         string << "cd ~/"
         string << "rbenv commands"
-        result = run_command(string.join(" && "))
-        result
+        query(string.join(" && ")).success?
       end
 
       def install_rbenv

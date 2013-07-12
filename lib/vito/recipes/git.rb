@@ -2,15 +2,21 @@ module Vito
   module Recipes
     class Git < Vito::Recipe
       def run
-        Log.write ""
-        Log.write "Starting Git installation..."
-        Log.write "Installing OS dependencies"
-        install_os_dependencies
-        Log.write "Installing Git itself"
-        install_git
+        if git_installed?
+          Vito::Log.write "Git is already installed."
+        else
+          Vito::Log.write "Installing Git's OS dependencies"
+          install_os_dependencies
+          Vito::Log.write "Installing Git itself"
+          install_git
+        end
       end
 
       private
+
+      def git_installed?
+        query("git --version").success?
+      end
 
       def install_git
         string = []

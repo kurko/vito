@@ -1,24 +1,41 @@
 # Vito
 
-TODO: Write a gem description
+Vito installs webservers for you very easily. Its goal is to be opinionated,
+with a shallow learning curve needed by using a Gemfile-like specification
+file.
 
-## Installation
+```ruby
+server :linode do
+  connection :ssh, :command => "vagrant ssh -c" }
 
-Add this line to your application's Gemfile:
+  install :rbenv
+  install :git
+  install :ruby, version: "2.0.0-p195"
+  install :tmux
+  install :apache do
+    vhosts_for :rails, port: 80
+    vhosts_for :rails, port: 443
+  end
+  install :passenger, with: :apache
+end
 
-    gem 'vito'
+server :ec2 do
+  install :postgres do
+    allow_connection from: :linode
+  end
 
-And then execute:
+  # ...
+end
+```
 
-    $ bundle
+Along with the installation process, it'll also be able to output status reports
+about a particular server.
 
-Or install it yourself as:
-
-    $ gem install vito
+For now, it won't be hosted, just sending SSH messages instead.
 
 ## Usage
 
-TODO: Write usage instructions here
+Vito is not read for production yet.
 
 ## Contributing
 

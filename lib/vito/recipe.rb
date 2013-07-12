@@ -9,12 +9,23 @@ module Vito
       raise "#{self.class.name} recipe needs to define a #run method"
     end
 
-    def install_recipe(recipe, options = {})
+    def depends_on_recipe(recipe, options = {})
       Installation.new(recipe, options, @connection).install
     end
 
     def run_command(command)
       @connection.run(command)
+    end
+
+    def query(command)
+      @connection.query(command)
+    end
+
+    # Helper methods
+    #
+    # should be extracted later
+    def program_version(version_command)
+      Vito::Utils::ProgramVersion.new(version_command, @connection)
     end
 
     private
