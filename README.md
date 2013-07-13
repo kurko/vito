@@ -1,7 +1,7 @@
 # Vito
 
 Vito installs webservers for you very easily. Its goal is to be opinionated,
-with a shallow learning curve needed by using a Gemfile-like specification
+with a shallow learning curve needed due to the use of a Gemfile-like specification
 file.
 
 ```ruby
@@ -32,6 +32,12 @@ Along with the installation process, it'll also be able to output status reports
 about a particular server.
 
 For now, it won't be hosted, just sending SSH messages instead.
+
+## Working packages
+
+These are the packages that are currently working:
+
+rbenv, git, ruby
 
 ## Usage
 

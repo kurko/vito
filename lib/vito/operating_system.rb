@@ -5,11 +5,17 @@ module Vito
     end
 
     def update_packages
-      @connection.run("sudo apt-get update")
+      os.update_packages
     end
 
     def install_dependencies(dependencies)
-      @connection.run("sudo apt-get install -y #{dependencies.join(" ")}")
+      os.install_dependencies(dependencies)
+    end
+
+    private
+
+    def os
+      @os ||= Vito::OperatingSystem::Ubuntu10.new(@connection)
     end
   end
 end
