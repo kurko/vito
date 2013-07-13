@@ -18,6 +18,7 @@ module Vito
         string << "rbenv global #{version}"
         string << "rbenv rehash"
         string << "gem install bundler"
+        string << "rbenv rehash"
         run_command string.join(" && ")
       end
 

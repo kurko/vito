@@ -17,10 +17,12 @@ module Vito
       Log.write "* Executing: #{command}"
       output = execute_command(command)
 
+      Log.write output.result
       unless output.success?
         Log.write "An error occurred. Here's the stacktrace:"
         Log.write output.result
         Log.write ""
+        raise "Error."
       end
 
       output

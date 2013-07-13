@@ -4,18 +4,8 @@ module Vito
       @connection = connection
     end
 
-    def update_packages
-      os.update_packages
-    end
-
-    def install_dependencies(dependencies)
-      os.install_dependencies(dependencies)
-    end
-
-    private
-
     def os
-      @os ||= Vito::OperatingSystem::Ubuntu10.new(@connection)
+      @os ||= Vito::OperatingSystems::Ubuntu10.new(@connection)
     end
   end
 end

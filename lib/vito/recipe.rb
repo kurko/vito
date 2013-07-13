@@ -30,8 +30,11 @@ module Vito
 
     private
 
+    def os
+      @os ||= Vito::OperatingSystem.new(@connection).os
+    end
+
     def install_os_dependencies
-      os = Vito::OperatingSystem.new(@connection)
       os.update_packages
       os.install_dependencies(os_dependencies) if self.respond_to?(:os_dependencies)
     end

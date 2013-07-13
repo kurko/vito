@@ -37,7 +37,7 @@ For now, it won't be hosted, just sending SSH messages instead.
 
 These are the packages that are currently working:
 
-rbenv, git, ruby
+rbenv, git, ruby, postgres
 
 ## Usage
 
