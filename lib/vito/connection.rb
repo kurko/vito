@@ -54,9 +54,10 @@ module Vito
 
     def execute_command(command)
       stdin, stdout, stderr, thread = []
-      Bundler.with_clean_env do
-        stdin, stdout, stderr, thread = Open3.popen3(command)
-      end
+      # In case we're in development and running `vagrant ssh -c`
+      #Bundler.with_clean_env do
+      stdin, stdout, stderr, thread = Open3.popen3(command)
+      #end
       Output.new(stdin, stdout, stderr, thread)
     end
 

@@ -41,12 +41,17 @@ rbenv, git, ruby, postgres
 
 ## Usage
 
-Vito is not read for production yet.
+Vito currently works only in development.
+
+## Documentation
+
+[Read the documentation](http://github.com/kurko/vito/blob/master/docs/manual.md)
 
 ## Contributing
 
 1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+2. Run the rake task to automatically download a Vagrant box for your tests.
+3. Create your feature branch (`git checkout -b my-new-feature`)
+4. Commit your changes (`git commit -am 'Added some feature'`)
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create new Pull Request

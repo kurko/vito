@@ -1,7 +1,12 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.unshift File.expand_path('../../', __FILE__)
-require "lib/vito"
+# Doing this so we can run the following in development (which doesn't have
+# lib/ in the path)
+#
+#   $ ./bin/vito
+#
+$LOAD_PATH.unshift File.expand_path('../../lib/', __FILE__)
+require "vito"
 
 shell = Vito::ShellInitializer.new(ARGV)
 shell.run

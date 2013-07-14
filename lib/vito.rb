@@ -5,5 +5,5 @@ require "active_support/inflector"
 module Vito
 end
 
-Dir["lib/vito/**/*.rb"].each { |f| require f }
-
+current_path = File.expand_path("../", __FILE__)
+Dir["#{current_path}/vito/**/*.rb"].each { |f| require f }
