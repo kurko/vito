@@ -1,10 +1,15 @@
-require "vito/output"
+require "spec_helper"
 
 describe Vito::Output do
-  describe ".write" do
-    it "puts a string" do
-      Vito::Output.should_receive(:puts).with("string")
-      Vito::Output.write("string")
-    end
+  describe "initialization" do
+    it "peding...."
+  end
+  
+  describe "success?" do
+    it "peding...."
+  end
+
+  describe "result" do
+    it "peding...."
   end
 end

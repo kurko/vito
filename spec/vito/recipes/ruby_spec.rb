@@ -1,9 +1,10 @@
-require "vito/recipes/ruby"
+require "spec_helper"
 
 describe Vito::Recipes::Ruby do
-  let(:vito) { double }
+  let(:options)    { double("options").as_null_object    }
+  let(:connection) { double("connection").as_null_object }
 
-  subject { Vito::Recipes::Ruby.new(vito) }
+  subject { Vito::Recipes::Ruby.new(options, connection) }
 
   before do
     stub_const("Vito::Recipes::Git", Object.new)

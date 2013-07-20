@@ -1,6 +1,4 @@
 require "spec_helper"
-require "vito/connection"
-require "vito/log"
 
 describe Vito::Connection do
   before do
@@ -20,8 +18,14 @@ describe Vito::Connection do
     context "invalid command" do
       let(:command) { "harrr" }
 
-      its(:success?) { should be_false }
-      its(:result)   { should == "sh: harrr: command not found\n" }
+      it "raises error and logs its messages" do
+        Vito::Log.should_receive(:write).exactly(2).times
+        Vito::Log.should_receive(:write).with("An error occurred. Here's the stacktrace:")
+        Vito::Log.should_receive(:write).with("sh: harrr: command not found\n")
+        Vito::Log.should_receive(:write).exactly(1).times
+
+        expect{ subject }.to raise_error 
+      end
     end
   end
 end

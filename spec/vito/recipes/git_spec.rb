@@ -1,4 +1,4 @@
-require "vito/recipes/git"
+require "spec_helper"
 
 describe Vito::Recipes::Git do
   let(:requestor) { double }
