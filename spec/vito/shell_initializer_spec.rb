@@ -1,4 +1,4 @@
-require "vito/shell_initializer"
+require "spec_helper"
 require "contracts/vito/installation_contract"
 
 describe Vito::ShellInitializer do

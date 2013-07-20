@@ -1,4 +1,4 @@
-require "vito/recipes_configuration"
+require "spec_helper"
 
 describe Vito::RecipesConfiguration do
   describe "#run" do
