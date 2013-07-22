@@ -38,33 +38,13 @@ module Vito
       #Bundler.with_clean_env do
       stdin, stdout, stderr, thread = Open3.popen3(command)
       #end
-      Vito::Output.new(stdin, stdout, stderr, thread)
+      Vito::ConnectionOutput.new(stdin, stdout, stderr, thread)
     end
 
     def final_command(command)
       command = command.gsub(/"/, '\"')
       command = command.gsub(/\$\(/, '\$(')
       command = "#{@options[:command]} \"#{command}\""
-    end
-  end
-
-  class Output
-    def initialize(stdin, stdout, stderr, thread)
-      @stdout = stdout
-      @stderr = stderr
-      @thread = thread.value
-    end
-
-    def success?
-      @thread.exitstatus == 0
-    end
-
-    def result
-      if success?
-        @result ||= @stdout.read
-      else
-        @result ||= @stderr.read
-      end
     end
   end
 end

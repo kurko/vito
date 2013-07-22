@@ -2,25 +2,20 @@ require "vito/recipes/ruby"
 
 module Vito
   class ShellInitializer
-    attr_reader :ssh
-
-    def initialize(args)
-      @installation_specs = File.open("vito.rb").read
+    def initialize(argv)
+      @argv = argv
     end
 
     def run
-      run_vito_file
-    end
-
-    # called by the vito.rb file
-    def server(*args, &block)
-      Vito::Server.new.instance_eval &block
+      Vito::DslFile.new(argv).run(vito_file)
     end
 
     private
 
-    def run_vito_file
-      instance_eval @installation_specs
+    attr_reader :argv
+
+    def vito_file
+      File.open("vito.rb").read
     end
   end
 end

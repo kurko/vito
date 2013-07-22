@@ -1,4 +1,6 @@
 module Vito
+
+  # This is a parent class for recipes and shouldn't be used directly.
   class Recipe
     def initialize(options, connection)
       @options = options
@@ -10,7 +12,7 @@ module Vito
     end
 
     def depends_on_recipe(recipe, options = {})
-      Installation.new(recipe, options, @connection).install
+      Dsl::Installation.new(recipe, options, @connection).install
     end
 
     def run_command(command)
@@ -27,8 +29,6 @@ module Vito
     def program_version(version_command)
       Vito::Utils::ProgramVersion.new(version_command, @connection)
     end
-
-    private
 
     def os
       @os ||= Vito::OperatingSystem.new(@connection).os

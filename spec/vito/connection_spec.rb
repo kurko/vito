@@ -24,7 +24,7 @@ describe Vito::Connection do
         Vito::Log.should_receive(:write).with("sh: harrr: command not found\n")
         Vito::Log.should_receive(:write).exactly(1).times
 
-        expect{ subject }.to raise_error 
+        expect{ subject }.to raise_error
       end
     end
   end
