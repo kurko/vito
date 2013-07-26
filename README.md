@@ -49,9 +49,30 @@ Vito currently works only in development.
 
 ## Contributing
 
-1. Fork it
-2. Run the rake task to automatically download a Vagrant box for your tests.
+Integration tests are run with Vagrant, you have to install it first. **Important**:
+don't use the gem, but the newer packaged installation. In fact, you should
+uninstall it (removing binstubs even) or Bundler will start complaining.
+
+Once you clone the repo, run:
+
+```bash
+$ rake setup:download_vagrant_box
+```
+
+This will download a VirtualBox image, initialize it with Vagrant and take a
+initial snapshot. Whenever you run a spec, we'll roll back to this snapshot
+to test it in a clean slate.
+
+Add recipes to the `recipes/` dir. You can base your recipe on the existing ones.
+
+Also, take a look at the rake tasks for running specs, e.g `rake spec:unit`,
+`rake spec:acceptance`, `rake spec:all` etc
+
+Once you're ready to push:
+
+1. Fork the repo
 3. Create your feature branch (`git checkout -b my-new-feature`)
 4. Commit your changes (`git commit -am 'Added some feature'`)
-5. Push to the branch (`git push origin my-new-feature`)
-6. Create new Pull Request
+5. Run specs with `rake spec:all` (check `rake -T` for more options)
+6. Push to the branch (`git push origin my-new-feature`)
+7. Create new Pull Request

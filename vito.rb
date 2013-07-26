@@ -5,7 +5,7 @@ server :ruby_server, :one do
   install :rbenv
   install :git
   install :ruby, version: "1.9.3-p125"
-  #install :postgres
+  install :postgres
   #install :tmux
   #install :ruby_gem, :bundler
   #install :passenger

@@ -19,12 +19,11 @@ describe Vito::Connection do
       let(:command) { "harrr" }
 
       it "raises error and logs its messages" do
-        Vito::Log.should_receive(:write).exactly(2).times
-        Vito::Log.should_receive(:write).with("An error occurred. Here's the stacktrace:")
-        Vito::Log.should_receive(:write).with("sh: harrr: command not found\n")
-        Vito::Log.should_receive(:write).exactly(1).times
+        Vito::Log.should_receive(:raise).with("An error occurred. Here's the stacktrace:")
+        Vito::Log.should_receive(:raise).with("sh: harrr: command not found\n")
+        Vito::Log.stub(:raise)
 
-        expect{ subject }.to raise_error
+        expect{ subject }.to raise_error "Error."
       end
     end
   end

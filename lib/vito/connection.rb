@@ -5,6 +5,8 @@ module Vito
     def initialize(type, args = {})
       @options = {}
       @options[:command] = args[:command]
+      @options[:verbose] = args[:verbose] || false
+      @options[:silent]  = args[:silent]  || false
     end
 
     def query(command)
@@ -14,14 +16,14 @@ module Vito
 
     def run(command)
       command = final_command(command)
-      Log.write "* Executing: #{command}"
+      Log.write("* Executing: #{command}") unless silent?
       output = execute_command(command)
 
-      Log.write output.result
+      Log.write(output.result, verbose?)
       unless output.success?
-        Log.write "An error occurred. Here's the stacktrace:"
-        Log.write output.result
-        Log.write ""
+        Log.raise "An error occurred. Here's the stacktrace:"
+        Log.raise output.result
+        Log.raise ""
         raise "Error."
       end
 
@@ -31,6 +33,14 @@ module Vito
     private
 
     attr_reader :options
+
+    def verbose?
+      @options[:verbose]
+    end
+
+    def silent?
+      @options[:silent]
+    end
 
     def execute_command(command)
       stdin, stdout, stderr, thread = []

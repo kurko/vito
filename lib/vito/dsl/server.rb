@@ -1,6 +1,10 @@
 module Vito
   module Dsl
     class Server
+      def initialize(args = nil)
+        @args = args
+      end
+
       def connection(type, options = {})
         @connection ||= Vito::Connection.new(type, options)
       end
