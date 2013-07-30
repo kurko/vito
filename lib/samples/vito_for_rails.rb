@@ -1,5 +1,6 @@
 server :rails_server do
   connection :ssh, user: "deploy", host: "0.0.0.0"
+  create_user :deploy
 
   install :rbenv
   install :git
