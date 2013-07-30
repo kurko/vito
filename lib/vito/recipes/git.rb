@@ -6,7 +6,7 @@ module Vito
           Vito::Log.write "Git is already installed."
         else
           Vito::Log.write "Installing Git's OS dependencies"
-          install_os_dependencies
+          install_os_dependencies(os_dependencies)
           Vito::Log.write "Installing Git itself"
           install_git
         end

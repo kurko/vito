@@ -78,7 +78,7 @@ module Vito
           run_command("sudo add-apt-repository ppa:pitti/postgresql && sudo apt-get update")
         end
 
-        super
+        super(os_dependencies)
       end
 
       def os_dependencies
