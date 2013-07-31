@@ -2,7 +2,7 @@ require "vito/recipes/ruby"
 
 module Vito
   class ShellInitializer
-    def initialize(argv)
+    def initialize(argv = [])
       @argv = argv
     end
 
@@ -15,7 +15,12 @@ module Vito
     attr_reader :argv
 
     def vito_file
-      File.open("vito.rb").read
+      file = if argv.empty?
+               "vito.rb"
+             else
+               argv.first
+             end
+      File.open(file).read
     end
   end
 end
