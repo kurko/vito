@@ -7,10 +7,18 @@ module Vito
         @argv = argv
       end
 
+      flag ["-f", "--file filename"]
+      desc "Defines a file"
       def file
         file = nil
         argv.each_with_index { |value, index| file = argv[index+1] if file?(value) }
         file
+      end
+
+      flag ["-h", "--help"]
+      desc "Shows this documentation"
+      def help
+        argv.any? { |a| ["-h", "--help"].include?(a) }
       end
 
       def available_options
@@ -23,8 +31,6 @@ module Vito
 
       attr_reader :argv
 
-      flag ["-f", "--file"]
-      desc "Defines a file"
       def file?(value)
         ["-f", "--file"].include?(value)
       end

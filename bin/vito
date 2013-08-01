@@ -8,5 +8,5 @@
 $LOAD_PATH.unshift File.expand_path('../../lib/', __FILE__)
 require "vito"
 
-shell = Vito::CommandLine::Command.new(ARGV)
+shell = Vito::CommandLine::String.new(ARGV)
 shell.run

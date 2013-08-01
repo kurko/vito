@@ -1,21 +1,21 @@
 module Vito
   module CommandLine
     class Command
-      def initialize(argv)
-        @argv = argv
+      def initialize(command_line)
+        @command_line = command_line
       end
 
-      def run
-        Vito::Commands::Run.new(self).perform
-      end
-
-      def options
-        Vito::CommandLine::Options.new(argv)
+      def command
+        if command_line.options.help
+          "help"
+        else
+          "run"
+        end
       end
 
       private
 
-      attr_reader :argv
+      attr_reader :command_line
     end
   end
 end
