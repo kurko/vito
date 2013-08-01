@@ -1,24 +1,30 @@
 module Vito
   class DslFile
-    def initialize(argv = nil)
-      @argv = argv
+    def initialize(command_line)
+      @command_line = command_line
     end
 
-    def run(code_string = nil, &block)
+    def run(string = nil, &block)
+      string ||= vito_file
       if block_given?
         instance_eval(&block)
       else
-        instance_eval(code_string)
+        instance_eval(string)
       end
     end
 
     private
 
-    attr_reader :options
+    attr_reader :command_line
 
     # called by the vito.rb file
     def server(*args, &block)
       Vito::Dsl::Server.new(args).instance_eval(&block)
+    end
+
+    def vito_file
+      file = command_line.options.file || "vito.rb"
+      File.open(file).read
     end
   end
 end
