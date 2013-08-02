@@ -1,6 +1,6 @@
 module Vito
   module Commands
-    class Run
+    class Install
       def initialize(command_line)
         @command_line = command_line
       end

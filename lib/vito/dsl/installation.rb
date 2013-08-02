@@ -8,7 +8,7 @@ module Vito
       end
 
       def install
-        "Vito::Recipes::#{@name.camelize}".constantize.new(@options, @connection).run
+        "Vito::Recipes::#{@name.camelize}".constantize.new(@options, @connection).install
       end
     end
   end

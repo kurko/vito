@@ -1,7 +1,7 @@
 module Vito
   module Recipes
     class Rbenv < Vito::Recipe
-      def run
+      def install
         if rbenv_installed?
           Vito::Log.write "Rbenv already installed."
         else

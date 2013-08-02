@@ -1,7 +1,7 @@
 module Vito
   module Recipes
     class Git < Vito::Recipe
-      def run
+      def install
         if git_installed?
           Vito::Log.write "Git is already installed."
         else

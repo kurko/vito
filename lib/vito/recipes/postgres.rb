@@ -1,13 +1,13 @@
 module Vito
   module Recipes
     class Postgres < Vito::Recipe
-      def run
+      def install
         if installed?
           Vito::Log.write "Postgres already installed."
         else
           Vito::Log.write "Installing Postgres"
           install_os_dependencies
-          install
+          install_postgres
         end
       end
 
@@ -45,7 +45,7 @@ module Vito
         "123456"
       end
 
-      def install
+      def install_postgres
         string = []
         run_command "sudo apt-get install -y postgresql-9.1 libpq-dev"
 

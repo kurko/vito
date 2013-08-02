@@ -1,7 +1,7 @@
 module Vito
   module Recipes
     class Ruby < Vito::Recipe
-      def run
+      def install
         if ruby_exists?
           Vito::Log.write "Ruby version #{version} is already installed."
         else
