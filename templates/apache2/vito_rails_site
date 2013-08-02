@@ -1,0 +1,13 @@
+<VirtualHost *:{{VITO_PORT}}>
+   ServerName {{VITO_SERVERNAME}}
+   # !!! Be sure to point DocumentRoot to 'public'!
+   DocumentRoot {{VITO_RAILS_PUBLIC_PATH}}
+   RailsEnv {{VITO_RAILS_ENV}}
+   <Directory {{VITO_RAILS_PUBLIC_PATH}}>
+     # This relaxes Apache security settings.
+     AllowOverride all
+     # MultiViews must be turned off.
+     Options -MultiViews
+  </Directory>
+</VirtualHost>
+
