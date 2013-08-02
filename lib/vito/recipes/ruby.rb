@@ -6,7 +6,7 @@ module Vito
           Vito::Log.write "Ruby version #{version} is already installed."
         else
           Vito::Log.write "Installing Ruby"
-          install_os_dependencies
+          install_os_dependencies(os_dependencies)
           depends_on_recipe(:rbenv)
           install_ruby
         end
