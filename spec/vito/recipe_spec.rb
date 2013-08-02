@@ -29,7 +29,7 @@ describe DummyRecipe do
       operating_system.should_receive(:install_dependencies).with(dependencies)
       Vito::OperatingSystem.stub(:new).with(connection) { double(os: operating_system) }
 
-      subject.install_os_dependencies
+      subject.install_os_dependencies(dependencies)
     end
   end
 
