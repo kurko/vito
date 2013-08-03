@@ -8,6 +8,10 @@ module Vito
         @connection = connection
       end
 
+      def service(service, command)
+        @connection.run("sudo /etc/init.d/#{service} #{command}")
+      end
+
       def is?(name, version = nil)
         version = VERSION unless version
         name == NAME && version.to_s == VERSION

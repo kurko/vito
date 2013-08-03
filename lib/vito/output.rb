@@ -12,7 +12,9 @@ module Vito
 
     def result
       if success?
-        @result ||= @stdout.read
+        @result ||= @stdout
+          .read
+          .gsub(/(\n|\s){1,}\Z/, "")
       else
         @result ||= @stderr.read
       end

@@ -10,7 +10,7 @@ describe Vito::Dsl::Installation do
   describe "#install" do
     it "installs each recipes" do
       ruby.should_receive(:install)
-      Vito::Recipes::Ruby.stub(:new).with(options, connection) { ruby }
+      Vito::Recipes::Ruby::Install.stub(:new).with(options, connection) { ruby }
       subject.install
     end
   end

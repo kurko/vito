@@ -6,7 +6,9 @@ server :ruby_server, :one do
   install :git
   install :ruby, version: "1.9.3-p125"
   install :postgres
+  install :apache do
+    with :passenger
+    vhosts with: :ssl, path: "/var/projects"
+  end
   #install :tmux
-  #install :ruby_gem, :bundler
-  #install :passenger
 end

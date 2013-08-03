@@ -4,7 +4,7 @@ describe Vito::Recipes::Ruby do
   let(:options)    { double("options").as_null_object }
   let(:connection) { double("connection").as_null_object }
 
-  subject { Vito::Recipes::Ruby.new(options, connection) }
+  subject { Vito::Recipes::Ruby::Install.new(options, connection) }
 
   before do
     STDOUT.stub(:puts)
@@ -17,7 +17,7 @@ describe Vito::Recipes::Ruby do
 
       rbenv = double
       rbenv.should_receive(:install)
-      Vito::Recipes::Rbenv.stub(:new).with(anything, connection) { rbenv }
+      Vito::Recipes::Rbenv::Install.stub(:new).with(anything, connection) { rbenv }
       subject.install
     end
   end

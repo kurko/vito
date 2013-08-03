@@ -7,8 +7,11 @@ module Vito
         @connection = connection
       end
 
-      def install
-        "Vito::Recipes::#{@name.camelize}".constantize.new(@options, @connection).install
+      def install(&block)
+        klass = "Vito::Recipes::#{@name.camelize}::Install".constantize
+        recipe = klass.new(@options, @connection)
+        recipe.instance_eval(&block) if block_given?
+        recipe.install
       end
     end
   end

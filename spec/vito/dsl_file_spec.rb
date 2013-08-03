@@ -1,4 +1,4 @@
-require "vito/dsl_file"
+require "spec_helper"
 
 describe Vito::DslFile do
   let(:server) { double }
@@ -7,16 +7,13 @@ describe Vito::DslFile do
 
   subject { described_class.new(command_line) }
 
-  before do
-    stub_const("Vito::Dsl::Server", Class.new)
-  end
-
   describe "#run" do
-    before do
-      Vito::Dsl::Server.stub(:new).with([:hey]) { server }
-    end
+    describe "basic block operation" do
+      before do
+        stub_const("Vito::Dsl::Server", Class.new)
+        Vito::Dsl::Server.stub(:new).with([:hey]) { server }
+      end
 
-    describe "block operation" do
       it "runs the server block evaluating it as string" do
         server.should_receive(:instance_eval)
 
@@ -33,6 +30,23 @@ describe Vito::DslFile do
         subject.run do
           server :hey do
 
+          end
+        end
+      end
+    end
+
+    describe "advanced block operation" do
+      it "calls commands inside the block and passes subblocks to the recipe" do
+        Vito::Recipes::Apache::Install.any_instance.should_receive(:with).with(:passenger)
+        Vito::Recipes::Apache::Install.any_instance.should_receive(:vhosts).with(path: "/var/projects")
+        Vito::Recipes::Apache::Install.any_instance.should_receive(:install)
+        subject.run do
+          server(:hey) do
+            connection :ssh, command: "whatever"
+            install :apache do
+              with :passenger
+              vhosts path: "/var/projects"
+            end
           end
         end
       end

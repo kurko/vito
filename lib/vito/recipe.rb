@@ -7,6 +7,14 @@ module Vito
       @connection = connection
     end
 
+    def method_missing(name, args)
+      raise "#{self.class.name} recipe needs to define a ##{name} method"
+    end
+
+    def with(args)
+
+    end
+
     def install
       raise "#{self.class.name} recipe needs to define a #install method"
     end

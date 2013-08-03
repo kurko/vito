@@ -1,7 +1,7 @@
 module Vito
   module Dsl
     class Server
-      def initialize(args = nil)
+      def initialize(args = [])
         @args = args
       end
 
@@ -9,8 +9,8 @@ module Vito
         @connection ||= Vito::Connection.new(type, options)
       end
 
-      def install(name, options = {})
-        Vito::Dsl::Installation.new(name, options, @connection).install
+      def install(name, options = {}, &block)
+        Vito::Dsl::Installation.new(name, options, @connection).install(&block)
       end
     end
   end
