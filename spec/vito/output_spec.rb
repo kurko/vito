@@ -1,7 +1,7 @@
 require "vito/output"
 
 describe Vito::ConnectionOutput do
-  let(:stdout) { double(read: :stdout_string) }
+  let(:stdout) { double(read: "stdout_string\n\n\s") }
   let(:stderr) { double(read: :stderr_string) }
   let(:thread) { double(value: double(exitstatus: 0)) }
 
@@ -21,7 +21,7 @@ describe Vito::ConnectionOutput do
   describe "result" do
     it "returns stdout string in case of a successful command" do
       subject.stub(:success?) { true }
-      subject.result.should == :stdout_string
+      subject.result.should == "stdout_string"
     end
 
     it "returns stdout string in case of a successful command" do

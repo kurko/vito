@@ -10,9 +10,21 @@ describe DummyRecipe do
 
   subject { described_class.new(options, connection) }
 
-  describe "#run" do
+  describe "#install" do
     it "raises an error if undefined" do
-      expect { subject.run }.to raise_error "DummyRecipe recipe needs to define a #run method"
+      expect { subject.install }.to raise_error "DummyRecipe recipe needs to define a #install method"
+    end
+  end
+
+  describe "#remove" do
+    it "raises an error if undefined" do
+      expect { subject.remove }.to raise_error "DummyRecipe recipe needs to define a #remove method"
+    end
+  end
+
+  describe "#update" do
+    it "raises an error if undefined" do
+      expect { subject.update }.to raise_error "DummyRecipe recipe needs to define a #update method"
     end
   end
 

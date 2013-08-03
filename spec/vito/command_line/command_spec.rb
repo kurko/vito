@@ -14,7 +14,7 @@ describe Vito::CommandLine::Command do
 
     it "returns run by default" do
       options.stub(help: false)
-      subject.command.should == "run"
+      subject.command.should == "install"
     end
   end
 end

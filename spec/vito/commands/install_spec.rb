@@ -1,6 +1,6 @@
-require "vito/commands/run"
+require "vito/commands/install"
 
-describe Vito::Commands::Run do
+describe Vito::Commands::Install do
   describe "#some_method" do
     it "returns true" do
 

@@ -7,8 +7,24 @@ module Vito
       @connection = connection
     end
 
-    def run
-      raise "#{self.class.name} recipe needs to define a #run method"
+    def method_missing(name, args)
+      raise "#{self.class.name} recipe needs to define a ##{name} method"
+    end
+
+    def with(args)
+
+    end
+
+    def install
+      raise "#{self.class.name} recipe needs to define a #install method"
+    end
+
+    def remove
+      raise "#{self.class.name} recipe needs to define a #remove method"
+    end
+
+    def update
+      raise "#{self.class.name} recipe needs to define a #update method"
     end
 
     def depends_on_recipe(recipe, options = {})

@@ -12,7 +12,7 @@ describe Vito::Connection do
       let(:command) { "echo" }
 
       its(:success?) { should == true }
-      its(:result)   { should == "Alex\n" }
+      its(:result)   { should == "Alex" }
     end
 
     context "invalid command" do

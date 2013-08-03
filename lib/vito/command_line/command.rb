@@ -9,7 +9,7 @@ module Vito
         if command_line.options.help
           "help"
         else
-          "run"
+          "install"
         end
       end
 
