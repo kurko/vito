@@ -6,25 +6,24 @@ file.
 
 ```ruby
 server :linode do
-  connection :ssh, :command => "vagrant ssh -c" }
+  connection :ssh, :command => "ssh deploy@your_server_com" }
 
   install :rbenv
   install :git
   install :ruby, version: "2.0.0-p195"
-  install :tmux
   install :apache do
-    vhosts_for :rails, port: 80
-    vhosts_for :rails, port: 443
+    # install vhosts for port 80 and 443
+    vhosts with: :ssl, path: "/var/projects"
+    with :passenger
   end
-  install :passenger, with: :apache
+
+  install :tmux
 end
 
 server :ec2 do
-  install :postgres do
-    allow_connection from: :linode
-  end
-
   # ...
+
+  install :postgres
 end
 ```
 
