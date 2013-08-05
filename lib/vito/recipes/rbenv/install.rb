@@ -34,9 +34,9 @@ module Vito
           string << "echo 'eval \"$(rbenv init -)\"' | cat - ~/.bashrc > ~/vitotemp && mv ~/vitotemp ~/.bashrc"
           string << "echo 'export PATH=\"\\$HOME/.rbenv/bin:\\$PATH\"' | cat - ~/.bashrc > vitotemp && mv vitotemp ~/.bashrc"
 
-          string << "[ -f ~/vitotemp ] && rm ~/vitotemp"
-
           run_command string.join(" && ")
+
+          query("rm ~/vitotemp")
         end
 
         def install_ruby_build
