@@ -1,14 +1,14 @@
 module Vito
   class DslFile
-    def initialize(command_line)
+    def initialize(command_line = nil)
       @command_line = command_line
     end
 
     def run(string = nil, &block)
-      string ||= vito_file
       if block_given?
         instance_eval(&block)
       else
+        string ||= vito_file
         instance_eval(string)
       end
     end
