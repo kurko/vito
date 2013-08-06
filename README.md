@@ -23,7 +23,7 @@ end
 server :ec2 do
   # ...
 
-  install :postgres
+  install :postgres, username: 'vito', password: 'corleone'
 end
 ```
 
