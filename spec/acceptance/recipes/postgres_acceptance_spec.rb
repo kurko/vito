@@ -11,7 +11,7 @@ describe "Postgres recipe" do
     Vito::DslFile.new.run do
       server do
         connection :ssh, command: 'ssh -i ~/.vagrant.d/insecure_private_key vagrant@localhost -p2222', silent: true
-        install :postgres
+        install :postgres, username: 'sebasoga', password: 'kicks_ass'
       end
     end
 

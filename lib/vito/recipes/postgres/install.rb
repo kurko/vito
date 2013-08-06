@@ -39,11 +39,11 @@ module Vito
         end
 
         def username
-          "vitouser"
+          @options.fetch(:username, 'vitouser')
         end
 
         def password
-          "123456"
+          @options.fetch(:password, '123456')
         end
 
         def install_postgres
