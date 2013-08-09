@@ -1,0 +1,11 @@
+language: ruby
+script: "rake spec:unit"
+notifications:
+  email: false
+rvm:
+  - 2.0.0
+  - 1.9.3
+  - ruby-head
+matrix:
+  allow_failures:
+    - rvm: ruby-head
