@@ -4,6 +4,8 @@ Vito installs webservers for you very easily. Its goal is to be opinionated,
 with a shallow learning curve needed due to the use of a Gemfile-like specification
 file.
 
+[![Build Status](https://travis-ci.org/kurko/vito.png?branch=master)](https://travis-ci.org/kurko/vito)
+
 ```ruby
 server :linode do
   connection :ssh, :command => "ssh deploy@your_server_com" }
