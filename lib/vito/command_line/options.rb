@@ -1,3 +1,5 @@
+require "vito/command_line/document_flags"
+
 module Vito
   module CommandLine
     class Options
