@@ -1,5 +1,5 @@
 language: ruby
-script: "rake spec:unit"
+script: "bundle exec rake spec:unit"
 notifications:
   email: false
 rvm:
