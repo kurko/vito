@@ -2,6 +2,11 @@ require "rubygems"
 require "bundler/setup"
 
 module Vito
+  class Recipe; end
+
+  module OperatingSystems
+    class Unix; end
+  end
 end
 
 current_path = File.expand_path("../", __FILE__)

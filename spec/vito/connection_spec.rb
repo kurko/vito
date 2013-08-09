@@ -20,7 +20,7 @@ describe Vito::Connection do
 
       it "raises error and logs its messages" do
         Vito::Log.should_receive(:raise).with("An error occurred. Here's the stacktrace:")
-        Vito::Log.should_receive(:raise).with("sh: harrr: command not found\n")
+        Vito::Log.should_receive(:raise).with(/sh.*harrr.*not found\n/)
         Vito::Log.stub(:raise)
 
         expect{ subject }.to raise_error "Error."

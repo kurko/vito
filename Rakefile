@@ -36,12 +36,14 @@ namespace :spec do
   task :acceptance do
     puts "Running spec using Vagrant boxes (this could take several minutes)"
     system "bundle exec rspec spec/acceptance"
+    fail if $?.exitstatus > 0
   end
 
   desc "Runs unit specs (no Vagrant box required)"
   task :unit do
     puts "Running unit specs"
     system "bundle exec rspec spec/vito"
+    fail if $?.exitstatus > 0
   end
 end
 
