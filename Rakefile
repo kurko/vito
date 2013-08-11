@@ -11,13 +11,6 @@ namespace :setup do
   end
 end
 
-namespace :vagrant do
-  desc "Creates a snapshot of the current box state to be used in specs"
-  task :take_snapshot do
-    take_snapshot("initial_box")
-  end
-end
-
 namespace :spec do
   desc "Runs all specs"
   task all: ["spec:unit", "spec:acceptance"]

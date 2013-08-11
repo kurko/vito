@@ -6,13 +6,14 @@ module Vito
       end
 
       def install
-        puts "Initializing #{os_name} box called #{os_name}_test_box into: #{box_location(os_name)}"
+        puts "=> Initializing #{os_name} box called #{os_name}_test_box into: #{box_location(os_name)}"
         pwd = Dir.pwd
         Dir.chdir("spec/vagrant_boxes/#{os_name}")
 
         puts "Attempting to download and prepare the box..."
         system "vagrant up && vagrant halt"
         puts "Attempting to take snapshot of clean box..."
+
         install_snapshot_plugin
         system "vagrant snapshot take #{snapshot_name}" unless snapshot_exist?
 
