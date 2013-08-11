@@ -8,7 +8,7 @@ file.
 
 ```ruby
 server :linode do
-  connection :ssh, :command => "ssh deploy@your_server_com" }
+  connection :ssh, :command => "ssh deploy@your_server_com"
 
   install :rbenv
   install :git
@@ -34,15 +34,20 @@ about a particular server.
 
 For now, it won't be hosted, just sending SSH messages instead.
 
+## Usage
+
+Vito is unstable and we do not advise using this on production yet. Let us do
+more tests first.
+
 ## Working packages
 
 These are the packages that are currently working:
 
-rbenv, git, ruby, postgres
-
-## Usage
-
-Vito currently works only in development.
+* Rbenv
+* Git
+* Ruby
+* PostgreSQL
+* Apache (including Passenger)
 
 ## Documentation
 
@@ -50,21 +55,28 @@ Vito currently works only in development.
 
 ## Contributing
 
-Integration tests are run with Vagrant, you have to install it first. **Important**:
+Integration tests are run with Vagrant, so please install it first. **Important**:
 don't use the gem, but the newer packaged installation. In fact, you should
 uninstall it (removing binstubs even) or Bundler will start complaining.
 
+#### Vagrant test boxes
+
+We have acceptance test for different operating systems (e.g Ubuntu, CentOS etc).
 Once you clone the repo, run:
 
 ```bash
-$ rake setup:download_vagrant_box
+$ bundle exec rake setup:download_vagrant_box
 ```
 
-This will download a VirtualBox image, initialize it with Vagrant and take a
-initial snapshot. Whenever you run a spec, we'll roll back to this snapshot
+This will download VirtualBox images in `spec/vagrant_boxes/` automatically if
+they're not present, initialize them with Vagrant and take a initial snapshot.
+Whenever you run a spec, we'll roll back to this snapshot
 to test it in a clean slate.
 
-Add recipes to the `recipes/` dir. You can base your recipe on the existing ones.
+Each box has around 400Mb in size, so make sure you have enough space. For a list
+of to-be-downloaded boxes, see the `Rakefile`.
+
+Add recipes to the `recipes/` dir. You can just clone the existing ones.
 
 Also, take a look at the rake tasks for running specs, e.g `rake spec:unit`,
 `rake spec:acceptance`, `rake spec:all` etc
