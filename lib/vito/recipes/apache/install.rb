@@ -1,20 +1,5 @@
 module Vito
   module Recipes
-
-    # Example VHosts files
-    #
-    # <VirtualHost *:80>
-    #    ServerName www.yourhost.com
-    #    # !!! Be sure to point DocumentRoot to 'public'!
-    #    DocumentRoot /somewhere/public
-    #    <Directory /somewhere/public>
-    #      # This relaxes Apache security settings.
-    #      AllowOverride all
-    #      # MultiViews must be turned off.
-    #      Options -MultiViews
-    #   </Directory>
-    # </VirtualHost>
-    #
     module Apache
       class Install < Vito::Recipe
         APACHE_HOMEDIR = "/etc/apache2"
