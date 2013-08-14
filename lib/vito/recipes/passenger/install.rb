@@ -5,11 +5,11 @@ module Vito
         class InvalidApacheVhosts < StandardError; end
 
         def install
-          if false # installed?
+          if installed?
             Vito::Log.write "Passenger already installed."
           else
             Vito::Log.write "Installing Passenger"
-            #depends_on_recipe(:ruby)
+            depends_on_recipe(:ruby, dependent: "Passenger")
 
             if @options[:server] == :apache
               install_passenger_with_apache2
@@ -18,6 +18,11 @@ module Vito
         end
 
         private
+
+        def installed?
+          # TODO: apachectl is Ubuntu specific
+          query("sudo apachectl -M|grep passenger").result.match(/passenger_module/)
+        end
 
         def install_passenger_with_apache2
 
@@ -30,10 +35,6 @@ module Vito
 
           ruby_paths      = Vito::Recipes::Ruby::Paths.new(self)
           ruby_path       = "PassengerDefaultRuby #{ruby_paths.ruby_path}"
-
-          puts passenger_path
-          puts mod_passenger
-          puts ruby_path
 
           # Creates /etc/apache2/mods-available/passenger.load
           #

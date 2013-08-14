@@ -6,8 +6,8 @@ module Vito
         @connection = connection
       end
 
-      def matches?(version)
-        version = version.gsub(/-/, "(.*){,1}")
+      def matches?(version = nil)
+        version = version.to_s.gsub(/-/, "(.*){,1}")
         if output.success?
           return output.result =~ /#{version}/
         end

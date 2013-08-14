@@ -8,7 +8,7 @@ describe Vito::Recipes::Apache::Install do
   subject { described_class.new(options, connection) }
 
   before do
-    subject.stub(:query)
+    subject.stub(:query) { double.as_null_object }
     subject.stub(:system)
     subject.stub(:run_command)
     subject.stub(:depends_on_recipe)
@@ -36,8 +36,8 @@ describe Vito::Recipes::Apache::Install do
         subject.should_not_receive(:depends_on_recipe)
       end
 
-      it "disables 000-default site" do
-        subject.should_receive(:run_command).with("sudo a2dissite 000-default")
+      it "shouldn't disable 000-default site" do
+        subject.should_not_receive(:run_command).with("sudo a2dissite 000-default")
       end
 
       it "doesn't set up vhosts" do
@@ -53,6 +53,7 @@ describe Vito::Recipes::Apache::Install do
       before do
         subject.with :passenger
         subject.vhosts with: :ssl, path: "/var/projects"
+        subject.stub(:site_already_enabled?) { false }
       end
 
       it "installs os dependencies" do
@@ -96,19 +97,27 @@ describe Vito::Recipes::Apache::Install do
           subject.install
         end
 
-        it "replaces VITO_RAILS_PUBLIC_PATH" do
-          subject.should_receive(:run_command).with(/sed.*VITO_RAILS_PUBLIC_PATH/i)
-          subject.install
-        end
+        context "Rails app" do
+          it "replaces VITO_RAILS_PUBLIC_PATH" do
+            subject.should_receive(:run_command).with(/sed.*VITO_RAILS_PUBLIC_PATH/i)
+            subject.install
+          end
 
-        it "replaces VITO_RAILS_ENV" do
-          subject.should_receive(:run_command).with(/sed.*VITO_RAILS_ENV/i)
-          subject.install
+          it "replaces VITO_RAILS_ENV" do
+            subject.should_receive(:run_command).with(/sed.*VITO_RAILS_ENV/i)
+            subject.install
+          end
+
+          it "replaces VITO_SITE_PATH" do
+            subject.should_receive(:run_command)
+              .with(/sed.*VITO_SITE_PATH.*var.*projects/i)
+            subject.install
+          end
         end
       end
 
       it "defines the user for the project dir" do
-        subject.should_receive(:run_command).with(/\[ -d \/var\/projects.*|| sudo mkdir/i)
+        subject.should_receive(:run_command).with(/\[ -d \/var\/projects.*|| sudo mkdir -p/i)
         subject.install
       end
 

@@ -16,9 +16,10 @@ describe Vito::Utils::ProgramVersion do
         subject.matches?("2.0.0-p195").should be_true
         subject.matches?("2.0.0p195").should be_true
         subject.matches?("2.0.0").should be_true
+        subject.matches?.should be_true
       end
 
-      it "returns false if it doesn't matche" do
+      it "returns false if it doesn't match" do
         subject.matches?("2.0.0p125").should be_false
         subject.matches?("1.9.3").should be_false
       end
@@ -35,9 +36,10 @@ describe Vito::Utils::ProgramVersion do
         subject.matches?("2.0.0").should be_false
       end
 
-      it "returns false if it doesn't matche" do
+      it "returns false if it doesn't match" do
         subject.matches?("2.0.0p125").should be_false
         subject.matches?("1.9.3").should be_false
+        subject.matches?.should be_false
       end
     end
   end

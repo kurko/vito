@@ -14,9 +14,14 @@ module Vito
         end
 
         def install_ruby
+          version_to_install = version
+          if version_to_install.nil?
+            version_to_install = "2.0.0-p247"
+            Vito::Log.write "No Ruby version specified, installing #{version_to_install}."
+          end
           string = []
-          string << "rbenv install #{version}"
-          string << "rbenv global #{version}"
+          string << "rbenv install #{version_to_install}"
+          string << "rbenv global #{version_to_install}"
           string << "rbenv rehash"
           string << "gem install bundler"
           run_command string.join(" && ")
@@ -25,6 +30,13 @@ module Vito
         private
 
         def ruby_exists?
+          if version.nil?
+            if @options[:dependent]
+              Vito::Log.write "#{@options[:dependent]} requires Ruby, but didn't specify a version."
+            else
+              Vito::Log.write "No Ruby version specified. Checking for any version instead."
+            end
+          end
           program_version("ruby -v").matches?(version)
         end
 

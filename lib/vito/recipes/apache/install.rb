@@ -32,7 +32,6 @@ module Vito
           raise InvalidApacheVhosts, "VHosts' app port not specified" unless @vhosts[:ports]
         end
 
-
         private
 
         def installed?
@@ -55,13 +54,9 @@ module Vito
           end
 
           # CONFIGURES APACHE
-
+          #
           # VHOSTS
           #
-          # Disable the old 000-default site
-          #
-          run_command "sudo a2dissite 000-default"
-
           unless @vhosts.empty?
             Vito::Log.write("Setting up Apache's VHosts")
 
@@ -79,6 +74,15 @@ module Vito
             @vhosts[:ports].each do |port|
               vhosts_file = "#{vhosts_template_file}_#{port}"
 
+              if site_already_enabled?(vhosts_file)
+                Vito::Log.write("#{vhosts_file} Apache site already defined.")
+                next
+              end
+              # Disable the old 000-default site
+              #
+              run_command "sudo a2dissite 000-default"
+
+
               # Downloads template file
               command = []
               command << "cd #{APACHE_HOMEDIR}/sites-available/"
@@ -93,10 +97,12 @@ module Vito
               command << "sudo sed -i 's/{{VITO_SERVERNAME}}/#{@vhosts[:servername].gsub(/\//, "\/")}/' #{vhosts_file}"
 
 
-              if rails?
-                command << "sudo sed -i 's/{{VITO_RAILS_PUBLIC_PATH}}/#{path}/g' #{vhosts_file}"
-                command << "sudo sed -i 's/{{VITO_RAILS_ENV}}/#{@vhosts[:rails_env].gsub(/\//, "\/")}/' #{vhosts_file}"
-              end
+              # Rails specific
+              command << "sudo sed -i 's/{{VITO_RAILS_PUBLIC_PATH}}/#{path}/g' #{vhosts_file}"
+              command << "sudo sed -i 's/{{VITO_RAILS_ENV}}/#{@vhosts[:rails_env].gsub(/\//, "\/")}/' #{vhosts_file}"
+
+              # non-Rails
+              command << "sudo sed -i 's/{{VITO_SITE_PATH}}/#{path}/g' #{vhosts_file}"
 
               run_command command.join(" && ")
 
@@ -108,7 +114,7 @@ module Vito
             #
             # Considering the user 'deploy' and the group 'admin'
             #
-            run_command "[ -d #{@vhosts[:path]} ] || sudo mkdir #{@vhosts[:path]}"
+            run_command "[ -d #{@vhosts[:path]} ] || sudo mkdir -p #{@vhosts[:path]}"
             run_command "sudo chown \\$USER:admin #{@vhosts[:path]}"
 
             Vito::Log.write("Activating Apache's VHosts")
@@ -137,6 +143,11 @@ module Vito
 
         def rails?
           with?(:passenger)
+        end
+
+        def site_already_enabled?(site)
+          # TODO: apachectl is Ubuntu specific
+          query("sudo apachectl -S|grep site").result.match(/#{site}/)
         end
       end
     end
