@@ -10,6 +10,44 @@ describe DummyRecipe do
 
   subject { described_class.new(options, connection) }
 
+  describe "#with" do
+    context "with a package specified" do
+      before do
+        subject.with(:passenger, version: "2.1")
+      end
+
+      describe "dynamic methods generated" do
+        it "generates a dynamic method with the same name of the package" do
+          subject.passenger.should == { version: "2.1" }
+        end
+      end
+    end
+
+    context "with no package specified" do
+      it "raises error on package name that wasn't specified" do
+        expect { subject.passenger }.to raise_error
+      end
+    end
+  end
+
+  describe "#with?" do
+    context "with a package specified" do
+      before { subject.with(:passenger, version: "2.1") }
+
+      it "returns true for that package" do
+        subject.with?(:passenger).should be_true
+      end
+
+      it "returns false for other packages" do
+        subject.with?(:packagex).should be_false
+      end
+    end
+
+    it "returns false when no package is specified" do
+      subject.with?(:packagex).should be_false
+    end
+  end
+
   describe "#install" do
     it "raises an error if undefined" do
       expect { subject.install }.to raise_error "DummyRecipe recipe needs to define a #install method"

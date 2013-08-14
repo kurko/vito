@@ -5,14 +5,23 @@ module Vito
     def initialize(options, connection)
       @options = options
       @connection = connection
+      @with = {}
     end
 
-    def method_missing(name, args)
-      raise "#{self.class.name} recipe needs to define a ##{name} method"
+    def method_missing(name, args = {})
+      if with?(name.to_sym)
+        @with[name.to_sym]
+      else
+        raise "#{self.class.name} recipe needs to define a ##{name} method"
+      end
     end
 
-    def with(args)
+    def with(name, args = {})
+      @with[name.to_sym] = args
+    end
 
+    def with?(name)
+      @with.keys.include?(name.to_sym)
     end
 
     def install

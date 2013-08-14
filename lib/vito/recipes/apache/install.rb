@@ -4,6 +4,11 @@ module Vito
       class Install < Vito::Recipe
         APACHE_HOMEDIR = "/etc/apache2"
 
+        def initialize(options, connection)
+          @vhosts = {}
+          super
+        end
+
         def install
           if installed?
             Vito::Log.write "Apache2 already installed."
@@ -15,7 +20,6 @@ module Vito
 
         # Used in the Apache block
         def vhosts(options = {})
-          @vhosts = {}
           @vhosts[:rails_env]  = options[:rails_env]  || "production"
           @vhosts[:servername] = options[:servername] || "www.example.com"
 
@@ -46,9 +50,9 @@ module Vito
           run_command "sudo apt-get install -y apache2 apache2-mpm-prefork apache2-prefork-dev"
 
           # Install passenger
-          #if install_passenger?
-            depends_on_recipe(:passenger, server: :apache)
-          #end
+          if with?(:passenger)
+            depends_on_recipe(:passenger, {server: :apache}.merge(passenger))
+          end
 
           # CONFIGURES APACHE
 
@@ -58,13 +62,18 @@ module Vito
           #
           run_command "sudo a2dissite 000-default"
 
-          if @vhosts
+          unless @vhosts.empty?
             Vito::Log.write("Setting up Apache's VHosts")
 
             #
             # For VHosts, create a file in /etc/apache2/sites-available/vito_site
             #
-            vhosts_template_file = "vito_rails_site"
+            # TODO: we shouldn't use Rails unless Passenger is specified
+            vhosts_template_file = if rails?
+                                     "vito_rails_site"
+                                   else
+                                     "vito_site"
+                                   end
             created_vhosts = []
 
             @vhosts[:ports].each do |port|
@@ -82,24 +91,26 @@ module Vito
               command << "cd #{APACHE_HOMEDIR}/sites-available/"
               command << "sudo sed -i 's/{{VITO_PORT}}/#{port.to_i}/' #{vhosts_file}"
               command << "sudo sed -i 's/{{VITO_SERVERNAME}}/#{@vhosts[:servername].gsub(/\//, "\/")}/' #{vhosts_file}"
-              command << "sudo sed -i 's/{{VITO_RAILS_PUBLIC_PATH}}/#{path}/g' #{vhosts_file}"
-              command << "sudo sed -i 's/{{VITO_RAILS_ENV}}/#{@vhosts[:rails_env].gsub(/\//, "\/")}/' #{vhosts_file}"
+
+
+              if rails?
+                command << "sudo sed -i 's/{{VITO_RAILS_PUBLIC_PATH}}/#{path}/g' #{vhosts_file}"
+                command << "sudo sed -i 's/{{VITO_RAILS_ENV}}/#{@vhosts[:rails_env].gsub(/\//, "\/")}/' #{vhosts_file}"
+              end
+
               run_command command.join(" && ")
 
               created_vhosts << vhosts_file
             end
 
-          end
+            # Replace the paths with whatever is passed in the vito.rb. Then create
+            # the path. Let's say it's /var/projects/, run:
+            #
+            # Considering the user 'deploy' and the group 'admin'
+            #
+            run_command "[ -d #{@vhosts[:path]} ] || sudo mkdir #{@vhosts[:path]}"
+            run_command "sudo chown \\$USER:admin #{@vhosts[:path]}"
 
-          # Replace the paths with whatever is passed in the vito.rb. Then create
-          # the path. Let's say it's /var/projects/, run:
-          #
-          # Considering the user 'deploy' and the group 'admin'
-          #
-          run_command "[ -d #{@vhosts[:path]} ] || sudo mkdir #{@vhosts[:path]}"
-          run_command "sudo chown \\$USER:admin #{@vhosts[:path]}"
-
-          if @vhosts
             Vito::Log.write("Activating Apache's VHosts")
 
             command = []
@@ -122,6 +133,10 @@ module Vito
 
         def os_dependencies
           %w(libcurl4-openssl-dev curl)
+        end
+
+        def rails?
+          with?(:passenger)
         end
       end
     end
